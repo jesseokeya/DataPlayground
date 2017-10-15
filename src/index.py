@@ -19,7 +19,7 @@ def main():
    for i in range(len(data)):
        for j in range(len(data[i])):
            if j < len(trackDataKeys):
-             print(trackDataKeys[trackDataKeys[j]])
+             print(j)
 
 
 
