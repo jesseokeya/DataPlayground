@@ -1,12 +1,22 @@
-# DataPlayground
-<br />
+#  DataPlayground
 
-Description: Sorting, Analyzing and Vizualizing Bank Data Collected
-<br />
+Understanding Your Data
 
-# Run Code
-<br />
-Enter `src` Directory and Excecute / Run
+## Description
+Sorting, Analyzing and Vizualizing Bank Data Collected
 
-<br />
-`cd src` and `python3 index.py`
+### Prerequisites
+```
+python
+```
+
+### Excecuting
+```
+cd src
+```
+
+And
+
+```
+python3 index.py
+```
