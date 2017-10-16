@@ -2,7 +2,7 @@
 # function to sort all of the data by the users surname given
 # returns a dictionary of all data related to that person
 def search_by_surname(name, data):
-    result = None
+    result = "No Customer By The Name " + name
     index = -1
 
     for i in range(len(data['Surname'])):
@@ -58,5 +58,6 @@ def sort_data(data_):
 
 def main():
     print('\n')
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>')
     print('Welcome To Data Playground')
-    print('\n')
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>')

@@ -18,12 +18,13 @@ def main():
    # range of data (index at 0 is minimum, index at 1 is maximum)
    data_range = [1, 10000]
 
+   # run the main function in imported sort file ('./sort.py')
    sort.main()
 
    # sort data into dictionaries with access keys
    # the access keys are the criterias
    sorted_data = sort.sort_data(data)
-   find_person = sort.search_by_surname('hill', sorted_data)
+   find_person = sort.search_by_surname('Obinna', sorted_data)
 
    # print a viewable clean version of the dictionary in json format
    print(json.dumps(find_person, indent=1))
