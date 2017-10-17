@@ -18,19 +18,18 @@ import json
 # execute main function
 def main():
 
-   csv_file_path = config.get_csv_system_location()
-   csv_file_path = csv_file_path['path']
-
-   # import csv file to be analized(data Source)
-   data = csv.reader(open(csv_file_path))
+   # import csv file data to be used(data Source)
+   data = config.get_csv_raw_data()
 
 
    # sort data into dictionaries with access keys
    # the access keys are the criterias
    sorted_data = sort.sort_data(data)
-   search_field = sort.search('Age', sorted_data, [0, 20])
+   # print(sort.display_data_as_table(sorted_data))
+   search_criteria = 'Age'
+   search_value = [0, 18]
+   search_field = sort.search(search_criteria, sorted_data, search_value)
    print(json.dumps(search_field, indent=1))
-   print(len(search_field))
 
 # excecute the main function
 main()

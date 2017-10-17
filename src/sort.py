@@ -1,5 +1,6 @@
-# import dependecny
+# import dependecies
 import config
+from pandas import DataFrame
 
 # search for any data by its key, and search value which can
 # be a string or integer
@@ -8,31 +9,25 @@ import config
 def search(search_criteria, search_criteria_data, search_value):
     index = None
     result = [];
+    
+    if(type(search_value).__name__ == 'list'):
+        for i in range(len(search_criteria_data[search_criteria])):
+            check = search_criteria_data[search_criteria][i]
+            search_value[0] = set_data_type(check, search_value[0])
+            search_value[1] = set_data_type(check, search_value[1])
+            if(check >= search_value[0] and check <= search_value[1]):
+                    result.append(search_by_index(i+1, search_criteria_data))
 
-    for i in range(len(search_criteria_data[search_criteria])):
-        check = search_criteria_data[search_criteria][i]
-        search_value = set_data_type(check, search_value)
-        if(check == search_value):
-                result.append(search_by_index(i+1, search_criteria_data))
+        return result;
 
-    return result;
+    else:
+        for i in range(len(search_criteria_data[search_criteria])):
+            check = search_criteria_data[search_criteria][i]
+            search_value = set_data_type(check, search_value)
+            if(check == search_value):
+                    result.append(search_by_index(i+1, search_criteria_data))
 
-# search for any data by its key, and search value which is
-# an array
-# returns an array of all the data that matches the search field and
-# its relating row / information
-def search(search_criteria, search_criteria_data, search_value):
-    index = None
-    result = [];
-
-    for i in range(len(search_criteria_data[search_criteria])):
-        check = search_criteria_data[search_criteria][i]
-        search_value[0] = set_data_type(check, search_value[0])
-        search_value[1] = set_data_type(check, search_value[1])
-        if(check >= search_value[0] and check <= search_value[1]):
-                result.append(search_by_index(i+1, search_criteria_data))
-
-    return result;
+        return result
 
 # function find each person by index
 # returns person in that index and all data relating to that person
@@ -82,5 +77,14 @@ def set_data_type(check, search_value):
         result = int(search_value)
     return result
 
+# display data in a table like in excel
+def display_data_as_table(data):
+    return DataFrame(data)
+
+# get number of colums
 def get_col_number():
     return len(config.get_csv_column_headers()[0])
+
+# get number of rows
+def get_row_number():
+    return len(config.get_csv_column_headers()) - 1
