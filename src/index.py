@@ -6,28 +6,31 @@
 '''
 
 # import dependencies
+# -------------
+# local directories
 import sort
+import config
+# -------------
+
 import csv as csv
-import numpy as np
 import json
 
 # execute main function
 def main():
-   # import csv file to be analized(data Source)
-   data = csv.reader(open('../resources/bankData.csv'))
-   # range of data (index at 0 is minimum, index at 1 is maximum)
-   data_range = [1, 10000]
 
-   # run the main function in imported sort file ('./sort.py')
-   sort.main()
+   csv_file_path = config.get_csv_system_location()
+   csv_file_path = csv_file_path['path']
+
+   # import csv file to be analized(data Source)
+   data = csv.reader(open(csv_file_path))
+
 
    # sort data into dictionaries with access keys
    # the access keys are the criterias
    sorted_data = sort.sort_data(data)
-   find_person = sort.search_by_surname('Obinna', sorted_data)
-
-   # print a viewable clean version of the dictionary in json format
-   print(json.dumps(find_person, indent=1))
+   search_field = sort.search('Age', sorted_data, [0, 20])
+   print(json.dumps(search_field, indent=1))
+   print(len(search_field))
 
 # excecute the main function
 main()

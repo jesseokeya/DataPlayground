@@ -1,15 +1,36 @@
+# import dependecny
+import config
 
-# function to sort all of the data by the users surname given
-# returns a dictionary of all data related to that person
-def search_by_surname(name, data):
-    result = "No Customer By The Name " + name
-    index = -1
+# search for any data by its key, and search value which can
+# be a string or integer
+# returns an array of all the data that matches the search field and
+# its relating row / information
+def search(search_criteria, search_criteria_data, search_value):
+    index = None
+    result = [];
 
-    for i in range(len(data['Surname'])):
-        if(data['Surname'][i].lower() == name.lower()):
-            index = i + 1
-            result = search_by_index(index, data)
-            return result
+    for i in range(len(search_criteria_data[search_criteria])):
+        check = search_criteria_data[search_criteria][i]
+        search_value = set_data_type(check, search_value)
+        if(check == search_value):
+                result.append(search_by_index(i+1, search_criteria_data))
+
+    return result;
+
+# search for any data by its key, and search value which is
+# an array
+# returns an array of all the data that matches the search field and
+# its relating row / information
+def search(search_criteria, search_criteria_data, search_value):
+    index = None
+    result = [];
+
+    for i in range(len(search_criteria_data[search_criteria])):
+        check = search_criteria_data[search_criteria][i]
+        search_value[0] = set_data_type(check, search_value[0])
+        search_value[1] = set_data_type(check, search_value[1])
+        if(check >= search_value[0] and check <= search_value[1]):
+                result.append(search_by_index(i+1, search_criteria_data))
 
     return result;
 
@@ -27,12 +48,7 @@ def search_by_index(index, data):
 
 # list of all search criterias that could be used
 def return_all_criterias():
-    searchCriterias = [
-        'CustomerId', 'Surname', 'CreditScore', 'Geography',
-        'Gender', 'Age', 'Tenure', 'Balance', 'NumOfProducts',
-        'HasCrCard', 'IsActiveMember', 'EstimatedSalary', 'Exited'
-        ]
-    return searchCriterias
+    return config.get_csv_column_headers()[0]
 
 # function to sort all data into a dictionary using search criterias as key
 # returns a dictionary of all search criterias with all specific data
@@ -56,8 +72,15 @@ def sort_data(data_):
 
     return trackDataKeys
 
-def main():
-    print('\n')
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    print('Welcome To Data Playground')
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>')
+# compares two data types and converts the data type of the
+# the first parameter as the data type of the second an returns it
+def set_data_type(check, search_value):
+    result = None
+    if(type(check).__name__ == 'str'):
+        result = str(search_value)
+    else:
+        result = int(search_value)
+    return result
+
+def get_col_number():
+    return len(config.get_csv_column_headers()[0])
