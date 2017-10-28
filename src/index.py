@@ -22,16 +22,11 @@ def main():
     print('----------------------------------------')
 
     # specify the path of the csv data to be anlyzed
-    path = '../resources/bank_data_uk.csv'
-
-    # config class to handle sorting each row in the
-    # data imported as its own array all in another array(2d)
-    data = Config(path)
-    data = data.get_csv_data()
+    path = '../resources/bank_data.csv'
 
     # sort data by search fields / criterias
     # using indexes as access points
-    sorted_data = Sort(data)
+    sorted_data = Sort(path)
 
     # prints out all search fields / criterias that
     # can be used to filter the csv data imported

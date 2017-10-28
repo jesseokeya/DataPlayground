@@ -1,13 +1,15 @@
 # import dependencies
 from pandas import DataFrame
+import csv
 import json
 import os
 
 class Sort:
     # Constructor
-    def __init__(self, data):
-        self.data = data;
-        self.headers = data[0]
+    def __init__(self, path):
+        self.path = path
+        self.data = self.get_csv_data();
+        self.headers = self.data[0]
 
     # search for any data by its key, and search value which can
     # be a string or integer
@@ -144,3 +146,25 @@ class Sort:
         print('----------------------------------------')
         for i in range(len(all_search_fields)):
             print(' ', '-> ', all_search_fields[i])
+
+    # function to get csv location via file path and displays
+    # the file path in a dictionary with 'path' as key
+    def get_csv_system_location(self):
+
+        csv_file_path = {}
+
+        csv_file_path['path'] = self.path
+
+        return csv_file_path
+
+    # get csv data read it and organize each row of the data as
+    # a 2d array for easy accessibility using indexes as keys
+    def get_csv_data(self):
+        data = []
+        result = None
+
+        csv_data = csv.reader(open(self.get_csv_system_location()['path']))
+        for row in csv_data:
+            data.append(row)
+
+        return data;
