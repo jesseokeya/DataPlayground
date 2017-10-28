@@ -25,9 +25,10 @@ class Sort:
                 check = search_criteria_data[search_criteria][i]
                 search_value[0] = self.set_data_type(check, search_value[0])
                 search_value[1] = self.set_data_type(check, search_value[1])
-                if(check >= search_value[0] and check <= search_value[1]):
+                if check.isdigit() and  check.find('.') != -1:
+                    check = float(search_criteria_data[search_criteria][i])
+                if(check > search_value[0] and check <= search_value[1]):
                         result.append(self.search_by_index(i+1, search_criteria_data))
-
             return result;
 
         else:
@@ -82,16 +83,30 @@ class Sort:
     # parameter 2 is already soreted data (important!!)
     def get_maximum_value(self, search_field, sorted_data):
         result = []
-        maximum_num = 0
-        for i in range(len(sorted_data)):
-            if(sorted_data[i][search_field]):
-                maximum_num = max(maximum_num, int(sorted_data[i][search_field]))
+        maximum_num = 0;
+        if(sorted_data):
+            value = sorted_data[0][search_field]
+            if(value and value.isdigit and value.find('.') != -1):
+                maximum_num = float(sorted_data[0][search_field])
+            else:
+                maximum_num = int(sorted_data[0][search_field])
+            index_of_maximum = -1
+            for i in range(len(sorted_data)):
+                value = sorted_data[i][search_field]
+                if(value and value.isdigit and value.find('.') != -1):
+                    maximum_num = max(maximum_num, float(value))
+                elif(value):
+                    maximum_num = max(maximum_num, int(value))
 
-        for i in range(len(sorted_data)):
-            if(int(sorted_data[i][search_field]) == maximum_num):
-                result.append(sorted_data[i])
+            for i in range(len(sorted_data)):
+                value = sorted_data[i][search_field]
+                if(value and value.isdigit and value.find('.') != -1):
+                    if(float(value) == maximum_num):
+                        result.append(sorted_data[i])
+                elif(int(value) == maximum_num):
+                    result.append(sorted_data[i])
 
-        return result;
+            return result;
 
     # returns minimum number in a sorted csv data set
     # the search_field should always be an int (important!!)
@@ -99,16 +114,29 @@ class Sort:
     def get_minimum_value(self, search_field, sorted_data):
         result = []
         minimum_num = int(sorted_data[0][search_field])
-        index_of_minimum = -1
-        for i in range(len(sorted_data)):
-            if(sorted_data[i][search_field]):
-                minimum_num = min(minimum_num, int(sorted_data[i][search_field]))
+        if(sorted_data):
+            value = sorted_data[0][search_field]
+            if(value and value.isdigit and value.find('.') != -1):
+                minimum_num = float(sorted_data[0][search_field])
+            else:
+                minimum = int(sorted_data[0][search_field])
+            index_of_minimum = -1
+            for i in range(len(sorted_data)):
+                value = sorted_data[i][search_field]
+                if(value and value.isdigit and value.find('.') != -1):
+                    minimum_num = min(minimum_num, float(value))
+                elif(value):
+                    minimum_num = min(minimum_num, int(value))
 
-        for i in range(len(sorted_data)):
-            if(int(sorted_data[i][search_field]) == minimum_num):
-                result.append(sorted_data[i])
+            for i in range(len(sorted_data)):
+                value = sorted_data[i][search_field]
+                if(value and value.isdigit and value.find('.') != -1):
+                    if(float(value) == minimum_num):
+                        result.append(sorted_data[i])
+                elif(int(value) == minimum_num):
+                    result.append(sorted_data[i])
 
-        return result;
+            return result;
 
     # compares two data types and converts the data type of the
     # the first parameter as the data type of the second an returns it
@@ -116,6 +144,8 @@ class Sort:
         result = None
         if(type(check).__name__ == 'str'):
             result = str(search_value)
+            if(check.isdigit() and  check.find('.') != -1):
+                result = float(search_value)
         else:
             result = int(search_value)
         return result
