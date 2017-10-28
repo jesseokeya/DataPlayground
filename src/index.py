@@ -39,15 +39,21 @@ def main():
     # visual representation of all your data in a table
     # print(sorted_data.display_data_as_table())
 
+    # filter the data by Age and further filter it by ages 20 to 70
     search_criteria = 'Age'
     search_value = [20, 70]
+    # return an array of dictionaries of all data that meets the filter
+    # criterias
     search_field = sorted_data.search(search_criteria, search_value)
 
     # print(json.dumps(search_field, indent=1))
 
+    # get_minimum_age of filtered data(search_field)
     get_minimum_age = sorted_data.get_minimum_value('Age', search_field)
+    # get_maximum_creditscore of filtered data(search_field)
     get_maximum_creditscore = sorted_data.get_maximum_value('CreditScore', search_field)
 
+    # Print Results
     print(' People With Minimum Age: ')
     print(json.dumps(get_minimum_age, indent=1))
 
