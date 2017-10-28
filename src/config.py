@@ -1,25 +1,31 @@
+# import dependencies
 import csv as csv
 
-def get_csv_system_location():
-    csv_file_path = {}
+# create class config
+class Config:
 
-    csv_file_path['path'] = '../resources/bank_data.csv'
+    # Initialize Constructor
+    def __init__(self, path):
+        self.path = path
 
-    return csv_file_path
+    # function to get csv location via file path and displays
+    # the file path in a dictionary with 'path' as key
+    def get_csv_system_location(self):
 
-def get_csv_column_headers():
-    data = []
-    result = None
+        csv_file_path = {}
 
-    csv_data = csv.reader(open(get_csv_system_location()['path']))
+        csv_file_path['path'] = self.path
 
-    for row in csv_data:
-        data.append(row)
+        return csv_file_path
 
-    return data;
+    # get csv data read it and organize each row of the data as
+    # a 2d array for easy accessibility using indexes as keys
+    def get_csv_data(self):
+        data = []
+        result = None
 
-def get_csv_raw_data():
-    csv_file_path = get_csv_system_location()
-    csv_file_path = csv_file_path['path']
+        csv_data = csv.reader(open(self.get_csv_system_location()['path']))
+        for row in csv_data:
+            data.append(row)
 
-    return csv.reader(open(csv_file_path))
+        return data;
