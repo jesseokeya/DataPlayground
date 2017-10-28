@@ -7,7 +7,6 @@ Sorting, Analyzing and Vizualizing Bank Data Collected
 
 ## Documentation
 ```python
-  print('        🎮 Data  Playground 🎮           ')
 
   # specify the path of the csv data to be anlyzed
   path = '../resources/bank_data.csv'
