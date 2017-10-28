@@ -1,8 +1,8 @@
 # import dependencies
-from pandas import DataFrame
 import csv
 import json
 import os
+from pandas import DataFrame
 
 class Sort:
     # Constructor

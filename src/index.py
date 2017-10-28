@@ -9,7 +9,6 @@
 # -------------
 # local directories
 from sort import Sort
-from config import Config
 # -------------
 
 import json
