@@ -39,7 +39,7 @@ def main():
     # print(sorted_data.display_data_as_table())
 
     search_criteria = 'Surname'
-    search_value = 'Jackson'
+    search_value = 'Jesse'
     search_field = sorted_data.search(search_criteria, search_value)
 
     # print(json.dumps(search_field, indent=1))

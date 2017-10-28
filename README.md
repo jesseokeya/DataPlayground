@@ -1,6 +1,6 @@
 #  DataPlayground
 
-Understanding Your Data
+Understanding Your Data `Version 0.0.1`
 
 ## Description
 Sorting, Analyzing and Vizualizing Bank Data Collected
