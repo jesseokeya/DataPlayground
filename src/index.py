@@ -14,6 +14,8 @@ from sort import Sort
 import json
 
 # execute main function
+
+
 def main():
     print('\n')
     print('----------------------------------------')
@@ -45,7 +47,8 @@ def main():
     # print(json.dumps(search_field, indent=1))
 
     get_minimum_age = sorted_data.get_minimum_value('Age', search_field)
-    get_maximum_creditscore = sorted_data.get_maximum_value('CreditScore', search_field)
+    get_maximum_creditscore = sorted_data.get_maximum_value(
+        'CreditScore', search_field)
 
     print(' People With Minimum Age: ')
     print(json.dumps(get_minimum_age, indent=1))
@@ -58,6 +61,7 @@ def main():
     if(get_minimum_age and get_maximum_creditscore):
         final_result = get_minimum_age + get_maximum_creditscore
     sorted_data.print_filtered_json_tofile(final_result, 'data')
+
 
 # excecute the main function
 main()

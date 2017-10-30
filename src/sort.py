@@ -4,11 +4,12 @@ import json
 import os
 from pandas import DataFrame
 
+
 class Sort:
     # Constructor
     def __init__(self, path):
         self.path = path
-        self.data = self.get_csv_data();
+        self.data = self.get_csv_data()
         self.headers = self.data[0]
 
     # search for any data by its key, and search value which can
@@ -18,25 +19,27 @@ class Sort:
     def search(self, search_criteria, search_value):
         search_criteria_data = self.sort_data(self.data)
         index = None
-        result = [];
+        result = []
 
         if(type(search_value).__name__ == 'list'):
             for i in range(len(search_criteria_data[search_criteria])):
                 check = search_criteria_data[search_criteria][i]
                 search_value[0] = self.set_data_type(check, search_value[0])
                 search_value[1] = self.set_data_type(check, search_value[1])
-                if check.isdigit() and  check.find('.') != -1:
+                if check.isdigit() and check.find('.') != -1:
                     check = float(search_criteria_data[search_criteria][i])
                 if(check > search_value[0] and check <= search_value[1]):
-                        result.append(self.search_by_index(i+1, search_criteria_data))
-            return result;
+                    result.append(self.search_by_index(
+                        i + 1, search_criteria_data))
+            return result
 
         else:
             for i in range(len(search_criteria_data[search_criteria])):
                 check = search_criteria_data[search_criteria][i]
                 search_value = self.set_data_type(check, search_value)
                 if(check == search_value):
-                        result.append(self.search_by_index(i+1, search_criteria_data))
+                    result.append(self.search_by_index(
+                        i + 1, search_criteria_data))
 
             return result
 
@@ -65,12 +68,11 @@ class Sort:
 
         for row in data_:
             data.append(row)
-        constDataKeys = data[0];
+        constDataKeys = data[0]
 
         for i in range(len(data[0])):
             trackDataKeys[data[0][i]] = []
         data.pop(0)
-
 
         for i in range(len(data)):
             for j in range(len(data[i])):
@@ -84,7 +86,7 @@ class Sort:
     def get_maximum_value(self, search_field, sorted_data):
         result = []
         if(sorted_data and len(sorted_data) > 0):
-            maximum_num = 0;
+            maximum_num = 0
             value = sorted_data[0][search_field]
             if(value and value.isdigit and value.find('.') != -1):
                 maximum_num = float(sorted_data[0][search_field])
@@ -106,7 +108,7 @@ class Sort:
                 elif(int(value) == maximum_num):
                     result.append(sorted_data[i])
 
-            return result;
+            return result
 
     # returns minimum number in a sorted csv data set
     # the search_field should always be an int (important!!)
@@ -136,7 +138,7 @@ class Sort:
                 elif(int(value) == minimum_num):
                     result.append(sorted_data[i])
 
-            return result;
+            return result
 
     # compares two data types and converts the data type of the
     # the first parameter as the data type of the second an returns it
@@ -144,7 +146,7 @@ class Sort:
         result = None
         if(type(check).__name__ == 'str'):
             result = str(search_value)
-            if(check.isdigit() and  check.find('.') != -1):
+            if(check.isdigit() and check.find('.') != -1):
                 result = float(search_value)
         else:
             result = int(search_value)
@@ -168,11 +170,11 @@ class Sort:
         if not os.path.exists(directory):
             os.makedirs(directory)
         with open(directory + name_of_file + '.json', 'w') as outfile:
-         json.dump(data, outfile)
+            json.dump(data, outfile)
 
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
-        print(message);
+        print(message)
         print('----------------------------------------')
         for i in range(len(all_search_fields)):
             print(' ', '-> ', all_search_fields[i])
@@ -197,4 +199,4 @@ class Sort:
         for row in csv_data:
             data.append(row)
 
-        return data;
+        return data
