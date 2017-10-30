@@ -83,8 +83,8 @@ class Sort:
     # parameter 2 is already soreted data (important!!)
     def get_maximum_value(self, search_field, sorted_data):
         result = []
-        maximum_num = 0;
-        if(sorted_data):
+        if(sorted_data and len(sorted_data) > 0):
+            maximum_num = 0;
             value = sorted_data[0][search_field]
             if(value and value.isdigit and value.find('.') != -1):
                 maximum_num = float(sorted_data[0][search_field])
@@ -113,8 +113,8 @@ class Sort:
     # parameter 2 is already soreted data (important!!)
     def get_minimum_value(self, search_field, sorted_data):
         result = []
-        minimum_num = int(sorted_data[0][search_field])
-        if(sorted_data):
+        if(sorted_data and len(sorted_data) > 0):
+            minimum_num = float(sorted_data[0][search_field])
             value = sorted_data[0][search_field]
             if(value and value.isdigit and value.find('.') != -1):
                 minimum_num = float(sorted_data[0][search_field])

@@ -21,7 +21,7 @@ def main():
     print('----------------------------------------')
 
     # specify the path of the csv data to be anlyzed
-    path = '../resources/bank_data_uk.csv'
+    path = '../resources/bank_data.csv'
 
     # sort data by search fields / criterias
     # using indexes as access points
@@ -38,14 +38,14 @@ def main():
     # visual representation of all your data in a table
     # print(sorted_data.display_data_as_table())
 
-    search_criteria = 'Surname'
-    search_value = 'Jesse'
+    search_criteria = 'Gender'
+    search_value = 'Male'
     search_field = sorted_data.search(search_criteria, search_value)
 
     # print(json.dumps(search_field, indent=1))
 
     get_minimum_age = sorted_data.get_minimum_value('Age', search_field)
-    get_maximum_creditscore = sorted_data.get_maximum_value('Balance', search_field)
+    get_maximum_creditscore = sorted_data.get_maximum_value('CreditScore', search_field)
 
     print(' People With Minimum Age: ')
     print(json.dumps(get_minimum_age, indent=1))
@@ -55,8 +55,9 @@ def main():
 
     # Creates new folder filtered_data this is where all json
     # data is written to if you decide to write to a file
-    final_result = get_minimum_age + get_maximum_creditscore
-    # sorted_data.print_filtered_json_tofile(final_result, 'data')
+    if(get_minimum_age and get_maximum_creditscore):
+        final_result = get_minimum_age + get_maximum_creditscore
+    sorted_data.print_filtered_json_tofile(final_result, 'data')
 
 # excecute the main function
 main()
