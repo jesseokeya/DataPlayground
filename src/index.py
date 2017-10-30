@@ -6,12 +6,12 @@
 '''
 
 # import dependencies
-# -------------
+import json
+
 # local directories
+# -------------
 from sort import Sort
 # -------------
-
-import json
 
 # execute main function
 
