@@ -78,7 +78,7 @@ def main():
         headers = {'X-Requested-With': 'XMLHttpRequest'}
         post_data = {'mapData': json.dumps(search_field)}
         post = requests.post(url=url, headers=headers, data=post_data)
-        local_post = requests.post(url=local_url, headers=headers, data=post_data)
+        # local_post = requests.post(url=local_url, headers=headers, data=post_data)
 
 
     # print(len(search_field))

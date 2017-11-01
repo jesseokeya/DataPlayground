@@ -1,6 +1,6 @@
 #  DataPlayground
 
-Understanding Your Data `Version 0.0.1` 
+Understanding Your Data `Version 0.0.1`
 Anytime Filter Your Data In RealTime <br /> [`https://dataplayground-dev.herokuapp.com`](https://dataplayground-dev.herokuapp.com) Gets Updated
 Using Websockets
 
