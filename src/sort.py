@@ -95,6 +95,8 @@ class Sort:
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
+                    if(value == '.'):
+                        value = 0.00
                     maximum_num = max(maximum_num, float(value))
                 elif(value):
                     maximum_num = max(maximum_num, int(value))
@@ -102,6 +104,8 @@ class Sort:
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
+                    if(value == '.'):
+                        value = 0.00
                     if(float(value) == maximum_num):
                         result.append(sorted_data[i])
                 elif(int(value) == maximum_num):
@@ -125,6 +129,8 @@ class Sort:
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
+                    if(value == '.'):
+                        value = 0.00
                     minimum_num = min(minimum_num, float(value))
                 elif(value):
                     minimum_num = min(minimum_num, int(value))
@@ -132,6 +138,8 @@ class Sort:
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
+                    if(value == '.'):
+                        value = 0.00
                     if(float(value) == minimum_num):
                         result.append(sorted_data[i])
                 elif(int(value) == minimum_num):
