@@ -1,28 +1,14 @@
-'''
-    Name: Data Playground
-    Aurthor: Jesse Okeya && Larry Agbana
-    Version: 0.0.1
-    Description: Sorting, Analyzing and Vizualizing Bank Data Collected
-'''
+#  DataPlayground
 
-# import dependencies
-import json
-import requests
+Understanding Your Data `Version 0.0.1` 
+Anytime Filter Your Data In RealTime <br /> [`https://dataplayground-dev.herokuapp.com`](https://dataplayground-dev.herokuapp.com) Gets Updated
+Using Websockets
 
-# local directories
-# -------------
-from sort import Sort
-# -------------
+## Description
+Sorting, Analyzing and Vizualizing Bank Data Collected
 
-# execute main function
-
-
-def main():
-    print('\n')
-    print('----------------------------------------')
-    print('        🎮 Data  Playground 🎮           ')
-    print('----------------------------------------')
-
+## Documentation
+```python
     # specify the path of the csv data to be anlyzed
     # more info at ` https://catalog.data.gov/dataset/gun-offenders `
     post_path = '/data-playground'
@@ -86,3 +72,20 @@ def main():
 
 # excecute the main function
 main()
+```
+
+### Prerequisites
+```
+python
+```
+
+### Excecuting
+```
+cd src
+```
+
+And
+
+```
+python3 index.py
+```
