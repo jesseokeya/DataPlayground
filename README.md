@@ -1,6 +1,8 @@
 #  DataPlayground
 
 Understanding Your Data `Version 0.0.1`
+Anytime Filter Your Data In RealTime `https://dataplayground-dev.herokuapp.com` Gets Updated
+Using Websockets
 
 ## Description
 Sorting, Analyzing and Vizualizing Bank Data Collected
