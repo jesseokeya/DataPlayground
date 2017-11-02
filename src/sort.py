@@ -20,6 +20,8 @@ class Sort:
     # its relating row / information
     # used only once for the first time searching(!!important!!)
     def first_search(self, search_criteria, search_value):
+        self.print_execution('  ⌕ Searching For ' + str(search_value) +
+                             ' in All `' + search_criteria + '` Field Of Csv Data...  ')
         search_criteria_data = self.sort_data(self.data)
         index = None
         result = []
@@ -34,6 +36,7 @@ class Sort:
                 if(check > search_value[0] and check <= search_value[1]):
                     result.append(self.search_by_index(
                         i + 1, search_criteria_data))
+            self.print_execution_completed('  ✓ Search Completed....  ')
             return result
 
         else:
@@ -43,7 +46,7 @@ class Sort:
                 if(check == search_value):
                     result.append(self.search_by_index(
                         i + 1, search_criteria_data))
-
+            self.print_execution_completed('  ✓ Search Completed....  ')
             return result
 
     # search for any data by its key, and search value which can
@@ -52,6 +55,8 @@ class Sort:
     # its relating row / information
     # used only afer the first time searching(!!important!!)
     def search(self, sorted_data, search_criteria, search_value):
+        self.print_execution('  ⌕ Searching For ' + str(search_value) +
+                             ' in All `' + search_criteria + '` Field Of Csv Data...  ')
         index = None
         result = []
 
@@ -64,6 +69,7 @@ class Sort:
                     check = float(sorted_data[search_criteria][i])
                 if(check > search_value[0] and check <= search_value[1]):
                     result.append(sorted_data[i])
+                self.print_execution_completed('  ✓ Search Completed....  ')
                 return result
         else:
             for i in range(len(sorted_data)):
@@ -71,6 +77,7 @@ class Sort:
                 search_value = self.set_data_type(check, search_value)
                 if(check == search_value):
                     result.append(sorted_data[i])
+            self.print_execution_completed('  ✓ Search Completed....  ')
             return result
 
     # function find each person by index
@@ -93,6 +100,7 @@ class Sort:
     # returns a dictionary of all search criterias with all specific data
     # in thier in thier right positions
     def sort_data(self, data_):
+        self.print_execution('  📚  Sorting Data...  ')
         data = []
         trackDataKeys = {}
 
@@ -204,6 +212,7 @@ class Sort:
 
     # print formated json data of csv infomation to a given (filename).json
     def print_filtered_json_tofile(self, data, name_of_file):
+        self.print_execution('  🖨  Printing Sorted Data To File (*.json)...  ')
         directory = './filtered_data/'
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -213,14 +222,20 @@ class Sort:
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
         sorted_data = self.sort_data(self.data)
+        key = None
         print(colored(message, 'grey', 'on_white', attrs=['bold']))
         print('----------------------------------------')
         for i in range(len(all_search_fields)):
             arrows = colored('⎸►| ', 'magenta')
+            key = all_search_fields[i]
             length_of_field = len(sorted_data[all_search_fields[i]])
             pick_random_field = random.randint(0, length_of_field)
             print(
                 arrows + colored(all_search_fields[i] + ' ➾ ' + sorted_data[all_search_fields[i]][pick_random_field], 'cyan', attrs=['bold']))
+        print('----------------------------------------')
+        data_len = str(len(sorted_data[key]))
+        cprint('         Length Of Csv Data is ' +
+               data_len + '     ', 'white', 'on_magenta')
 
     # function to get csv location via file path and displays
     # the file path in a dictionary with 'path' as key
@@ -241,5 +256,15 @@ class Sort:
         csv_data = csv.reader(open(self.get_csv_system_location()['path']))
         for row in csv_data:
             data.append(row)
-
+        self.print_execution_completed('  ✓ Csv File Imported Successfully  ')
         return data
+
+    # print colored paramter / arguement passed in
+    # intended for execution messages while program is running
+    def print_execution(self, message):
+        cprint(message, 'grey', attrs=['bold'])
+
+    # print colored paramter / arguement passed in
+    # intended for end execution of proccess
+    def print_execution_completed(self, message):
+        cprint(message, 'magenta', attrs=['bold'])

@@ -21,7 +21,7 @@ from sort import Sort
 def main():
     print('\n')
     print('----------------------------------------')
-    cprint('        ⛹  Data Playground ⛹           ', 'white', 'on_magenta')
+    cprint('        ⛹  Data Playground ⛹            ', 'white', 'on_magenta')
     print('----------------------------------------')
 
     # specify the path of the csv data to be anlyzed
@@ -41,10 +41,9 @@ def main():
     # prints out all search fields / criterias that
     # can be used to filter the csv data imported
     all_search_fields = sorted_data.return_all_criterias()
-    message = '   Snippet Of The Data Csv Imported  '
+    message = '    Snippet Of The Data Csv Imported    '
     sorted_data.print_all_search_fields(message, all_search_fields)
     print('----------------------------------------')
-    print('\n')
 
     # visual representation of all your data in a table
     # print(sorted_data.display_data_as_table())
@@ -57,7 +56,6 @@ def main():
 
     deeper_search = sorted_data.search(more_search, 'district', 'NED')
 
-
     sorted_data.print_filtered_json_tofile(deeper_search, 'data')
 
     # len_of_s = str(len(deeper_search))
@@ -65,10 +63,12 @@ def main():
     #        'on_cyan', attrs=['bold', 'reverse'])
 
     if(len(deeper_search) > 0):
+        sorted_data.print_execution('  📩  Sending Data To The Web For Vizualization  ')
         headers = {'X-Requested-With': 'XMLHttpRequest'}
         post_data = {'mapData': json.dumps(deeper_search)}
         post = requests.post(url=url, headers=headers, data=post_data)
         # local_post = requests.post(url=local_url, headers=headers, data=post_data)
+        sorted_data.print_execution_completed('  📬  Data Sent Successfully ')
 
 
 # excecute the main function
