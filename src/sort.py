@@ -1,8 +1,10 @@
 # import dependencies
+import os
 import csv
 import json
-import os
+import random
 from pandas import DataFrame
+from termcolor import colored, cprint
 
 
 class Sort:
@@ -16,7 +18,8 @@ class Sort:
     # be a string or integer
     # returns an array of all the data that matches the search field and
     # its relating row / information
-    def search(self, search_criteria, search_value):
+    # used only once for the first time searching(!!important!!)
+    def first_search(self, search_criteria, search_value):
         search_criteria_data = self.sort_data(self.data)
         index = None
         result = []
@@ -41,6 +44,33 @@ class Sort:
                     result.append(self.search_by_index(
                         i + 1, search_criteria_data))
 
+            return result
+
+    # search for any data by its key, and search value which can
+    # be a string or integer
+    # returns an array of all the data that matches the search field and
+    # its relating row / information
+    # used only afer the first time searching(!!important!!)
+    def search(self, sorted_data, search_criteria, search_value):
+        index = None
+        result = []
+
+        if(type(search_value).__name__ == 'list'):
+            for i in range(len(sorted_data)):
+                check = sorted_data[i][search_criteria]
+                search_value[0] = self.set_data_type(check, search_value[0])
+                search_value[1] = self.set_data_type(check, search_value[1])
+                if check.isdigit() and check.find('.') != -1:
+                    check = float(sorted_data[search_criteria][i])
+                if(check > search_value[0] and check <= search_value[1]):
+                    result.append(sorted_data[i])
+                return result
+        else:
+            for i in range(len(sorted_data)):
+                check = sorted_data[i][search_criteria]
+                search_value = self.set_data_type(check, search_value)
+                if(check == search_value):
+                    result.append(sorted_data[i])
             return result
 
     # function find each person by index
@@ -182,10 +212,15 @@ class Sort:
 
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
-        print(message)
+        sorted_data = self.sort_data(self.data)
+        print(colored(message, 'grey', 'on_white', attrs=['bold']))
         print('----------------------------------------')
         for i in range(len(all_search_fields)):
-            print(' ', '-> ', all_search_fields[i])
+            arrows = colored('⎸►| ', 'magenta')
+            length_of_field = len(sorted_data[all_search_fields[i]])
+            pick_random_field = random.randint(0, length_of_field)
+            print(
+                arrows + colored(all_search_fields[i] + ' ➾ ' + sorted_data[all_search_fields[i]][pick_random_field], 'cyan', attrs=['bold']))
 
     # function to get csv location via file path and displays
     # the file path in a dictionary with 'path' as key

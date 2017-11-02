@@ -8,6 +8,7 @@
 # import dependencies
 import json
 import requests
+from termcolor import cprint
 
 # local directories
 # -------------
@@ -20,18 +21,18 @@ from sort import Sort
 def main():
     print('\n')
     print('----------------------------------------')
-    print('        🎮 Data  Playground 🎮           ')
+    cprint('        ⛹  Data Playground ⛹           ', 'white', 'on_magenta')
     print('----------------------------------------')
 
     # specify the path of the csv data to be anlyzed
+    path = '../resources/Gun_Offenders.csv'
+
     # more info at ` https://catalog.data.gov/dataset/gun-offenders `
     post_path = '/data-playground'
 
     url = 'https://dataplayground-dev.herokuapp.com'
-    local_url = 'http://localhost:3000' + post_path ;
+    local_url = 'http://localhost:3000' + post_path
     url = url + post_path
-
-    path = '../resources/Gun_Offenders.csv'
 
     # sort data by search fields / criterias
     # using indexes as access points
@@ -40,7 +41,7 @@ def main():
     # prints out all search fields / criterias that
     # can be used to filter the csv data imported
     all_search_fields = sorted_data.return_all_criterias()
-    message = ' All Search Fields In Data Imported '
+    message = '   Snippet Of The Data Csv Imported  '
     sorted_data.print_all_search_fields(message, all_search_fields)
     print('----------------------------------------')
     print('\n')
@@ -50,38 +51,24 @@ def main():
 
     search_criteria = 'sex'
     search_value = 'Male'
-    # print(sorted_data.display_data_as_table())
-    search_field = sorted_data.search(search_criteria, search_value)
+    search_field = sorted_data.first_search(search_criteria, search_value)
 
-    # print(json.dumps(search_field, indent=1))
+    more_search = sorted_data.search(search_field, 'race', 'Black')
 
-    # minimum_death_cause = sorted_data.get_minimum_value('Deaths', search_field)
-    # maximum_death_cause = sorted_data.get_maximum_value('Deaths', search_field)
+    deeper_search = sorted_data.search(more_search, 'district', 'NED')
 
-    # get_minimum_age = sorted_data.get_minimum_value('Age', search_field)
-    # get_maximum_creditscore = sorted_data.get_maximum_value(
-    #     'CreditScore', search_field)
-    #
-    # print(' Lowest Number Of Deaths: ')
-    # print(json.dumps(minimum_death_cause, indent=1))
-    #
-    # print(' Highest Number Of Deaths: ')
-    # print(json.dumps(maximum_death_cause, indent=1))
 
-    # Creates new folder filtered_data this is where all json
-    # data is written to if you decide to write to a file
-    # if(minimum_death_cause  and maximum_death_cause):
-    #     final_result = minimum_death_cause + maximum_death_cause
-    sorted_data.print_filtered_json_tofile(search_field, 'data')
+    sorted_data.print_filtered_json_tofile(deeper_search, 'data')
 
-    if(len(search_field) > 0):
+    # len_of_s = str(len(deeper_search))
+    # cprint('Length Of Search Is: ' + len_of_s, 'grey',
+    #        'on_cyan', attrs=['bold', 'reverse'])
+
+    if(len(deeper_search) > 0):
         headers = {'X-Requested-With': 'XMLHttpRequest'}
-        post_data = {'mapData': json.dumps(search_field)}
+        post_data = {'mapData': json.dumps(deeper_search)}
         post = requests.post(url=url, headers=headers, data=post_data)
         # local_post = requests.post(url=local_url, headers=headers, data=post_data)
-
-
-    # print(len(search_field))
 
 
 # excecute the main function
