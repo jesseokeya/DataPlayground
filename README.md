@@ -1,7 +1,7 @@
 #  DataPlayground
 
 Understanding Your Data `Version 0.0.1`
-Anytime Filter Your Data In RealTime <br /> [`https://dataplayground-dev.herokuapp.com`](https://dataplayground-dev.herokuapp.com) Gets Updated
+Filter Your Data In RealTime <br /> [`https://dataplayground-dev.herokuapp.com`](https://dataplayground-dev.herokuapp.com) Gets Updated
 Using Websockets
 
 ## Description
@@ -55,6 +55,9 @@ Sorting, Analyzing and Vizualizing Bank Data Collected
       # local_post = requests.post(url=local_url, headers=headers, data=post_data)
       sorted_data.print_execution_completed('  📬  Data Sent Successfully ')
 ```
+
+### Terminal Output
+<img src="https://dataplayground-dev.herokuapp.com/img/terminal.png" width="350" height="450">
 
 ### Prerequisites
 ```
