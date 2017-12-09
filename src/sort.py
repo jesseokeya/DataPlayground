@@ -2,10 +2,11 @@
 import os
 import csv
 import json
+import xlrd
+import time
 import random
 import requests
-import time
-from pandas import DataFrame
+import pandas as pd
 from termcolor import colored, cprint
 
 
@@ -221,7 +222,7 @@ class Sort:
 
     # display data in a table like in excel
     def display_data_as_table(self):
-        return DataFrame(self.data)
+        return pd.DataFrame(self.data)
 
     # get number of colums
     def get_col_number(self):

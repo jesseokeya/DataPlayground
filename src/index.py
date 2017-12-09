@@ -22,10 +22,14 @@ def main():
     sorted_data = Sort(path)
 
     first_search = sorted_data.first_search('sex', 'Male');
-    second_search = sorted_data.contains(first_search, 'Date_Of_Birth', 2000)
+
+    second_search = sorted_data.search(first_search, 'state', 'MD')
+
+    third_search = sorted_data.contains(second_search, 'full_address', 'ROSALIND')
 
     url = 'https://dataplayground-dev.herokuapp.com/data-playground'
-    sorted_data.send_data_as_post(url, second_search)
+    sorted_data.send_data_as_post(url, third_search)
+
 
     sorted_data.end()
 
