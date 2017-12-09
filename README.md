@@ -21,7 +21,7 @@ Sorting, Analyzing and Vizualizing Bank Data Collected
 
   second_search = sorted_data.search(find_in_data, 'state', 'MD')
 
-  third_search = sorted_data.contains(second_search, 'full_address', 'ROSALIND')
+  third_search = sorted_data.contains(second_search, 'neighborhood', 'Park')
 
   url = 'https://dataplayground-dev.herokuapp.com/data-playground'
   sorted_data.send_data_as_post(url, third_search)
