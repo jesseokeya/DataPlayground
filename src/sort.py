@@ -3,6 +3,8 @@ import os
 import csv
 import json
 import random
+import requests
+import time
 from pandas import DataFrame
 from termcolor import colored, cprint
 
@@ -11,8 +13,17 @@ class Sort:
     # Constructor
     def __init__(self, path):
         self.path = path
+        self.start_time = time.time()
         self.data = self.get_csv_data()
         self.headers = self.data[0]
+        self.start()
+
+    def get_all_data(self):
+        f = open( self.path, 'r' )
+        reader = csv.DictReader( f)
+        result = json.dumps( [ row for row in reader ] )
+        result = json.loads(result)
+        return result
 
     # search for any data by its key, and search value which can
     # be a string or integer
@@ -23,7 +34,6 @@ class Sort:
         self.print_execution('  ⌕ Searching For ' + str(search_value) +
                              ' in All `' + search_criteria + '` Field Of Csv Data...  ')
         search_criteria_data = self.sort_data(self.data)
-        index = None
         result = []
 
         if(type(search_value).__name__ == 'list'):
@@ -57,7 +67,6 @@ class Sort:
     def search(self, sorted_data, search_criteria, search_value):
         self.print_execution('  ⌕ Searching For ' + str(search_value) +
                              ' in All `' + search_criteria + '` Field Of Csv Data...  ')
-        index = None
         result = []
 
         if(type(search_value).__name__ == 'list'):
@@ -79,6 +88,19 @@ class Sort:
                     result.append(sorted_data[i])
             self.print_execution_completed('  ✓ Search Completed....  ')
             return result
+
+    def contains(self, sorted_data, search_criteria, search_value):
+        self.print_execution('  ⌕ Checking If ' + str(search_value) +
+                             ' Is Contained In `' + search_criteria + '` Field Of Csv Data...  ')
+        index = None
+        result = []
+        for i in range(len(sorted_data)):
+            check = sorted_data[i][search_criteria]
+            search_value = self.set_data_type(check, search_value)
+            if(check.lower().find(search_value.lower()) != -1):
+                result.append(sorted_data[i])
+        self.print_execution_completed('  ✓ Search Completed....  ')
+        return result
 
     # function find each person by index
     # returns person in that index and all data relating to that person
@@ -130,7 +152,6 @@ class Sort:
                 maximum_num = float(sorted_data[0][search_field])
             else:
                 maximum_num = int(sorted_data[0][search_field])
-            index_of_maximum = -1
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
@@ -212,7 +233,8 @@ class Sort:
 
     # print formated json data of csv infomation to a given (filename).json
     def print_filtered_json_tofile(self, data, name_of_file):
-        self.print_execution('  🖨  Printing Sorted Data To File (*.json)...  ')
+        self.print_execution(
+            '  🖨  Printing Sorted Data To File (' + str(name_of_file) + '.json)...  ')
         directory = './filtered_data/'
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -251,12 +273,9 @@ class Sort:
     # a 2d array for easy accessibility using indexes as keys
     def get_csv_data(self):
         data = []
-        result = None
-
         csv_data = csv.reader(open(self.get_csv_system_location()['path']))
         for row in csv_data:
             data.append(row)
-        self.print_execution_completed('  ✓ Csv File Imported Successfully  ')
         return data
 
     # print colored paramter / arguement passed in
@@ -268,3 +287,37 @@ class Sort:
     # intended for end execution of proccess
     def print_execution_completed(self, message):
         cprint(message, 'magenta', attrs=['bold'])
+
+    # Print headers
+    def start(self):
+        print('\n')
+        print('----------------------------------------')
+        cprint('        ⛹  Data Playground ⛹            ', 'white', 'on_magenta')
+        print('----------------------------------------')
+        self.print_execution_completed('  ✓ Csv File Imported Successfully  ')
+        # prints out all search fields / criterias that
+        # can be used to filter the csv data imported
+        message = '    Snippet Of The Data Csv Imported    '
+        self.print_all_search_fields(message, self.headers)
+        print('----------------------------------------')
+
+    def send_data_as_post(self, url, data):
+        if(len(data) > 0):
+            self.print_execution(
+                '  📩  Sending Data To The Web For Vizualization  ')
+            headers = {'X-Requested-With': 'XMLHttpRequest'}
+            post_data = {'mapData': json.dumps(data)}
+            post = requests.post(url=url, headers=headers, data=post_data)
+            return post
+            self.print_execution_completed(
+                '  📬  Data Sent Successfully ')
+
+    # pretty print end of excecution time
+    def end(self):
+        end = time.time()
+        total_time = str(round(end - self.start_time, 3))
+        print('----------------------------------------')
+        self.print_execution('            ⏳ Execution Time           ')
+        cprint('             ' + total_time +
+               ' second(s)             ', 'white', 'on_magenta')
+        print('----------------------------------------')
