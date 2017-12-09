@@ -30,7 +30,6 @@ def main():
     url = 'https://dataplayground-dev.herokuapp.com/data-playground'
     sorted_data.send_data_as_post(url, third_search)
 
-
     sorted_data.end()
 
 # excecute the main function
