@@ -30,7 +30,7 @@ Sorting, Analyzing and Vizualizing Bank Data Collected
 ```
 
 ### Usage
-```python
+```
 
   sorted_data = Sort(path_to_csv_file)
   
