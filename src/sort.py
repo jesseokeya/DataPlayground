@@ -247,6 +247,9 @@ class Sort:
         with open(directory + name_of_file + '.json', 'w') as outfile:
             json.dump(data, outfile)
 
+    def delete_json_file(self, filepath):
+        os.remove('./filtered_data/' + filepath + '.json')
+
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
         sorted_data = self.sort_data(self.data)
