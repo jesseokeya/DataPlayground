@@ -32,14 +32,10 @@ def main():
     tests.get_row_number()
 
     access_keys = tests.return_all_criterias()
-    random_access_key = choice(access_keys)
-
-    search_value = all_data[0][random_access_key]
-    first_search = tests.first_search(random_access_key, search_value)
 
     new_access_key = choice(access_keys)
     new_search_value = all_data[0][new_access_key]
-    more_search = tests.search(first_search, new_access_key, new_search_value)
+    more_search = tests.search(all_data, new_access_key, new_search_value)
 
     last_access_key = choice(access_keys)
     last_search_value = all_data[0][last_access_key ]

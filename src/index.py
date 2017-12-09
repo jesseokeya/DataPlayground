@@ -21,9 +21,9 @@ def main():
     # using indexes as access points
     sorted_data = Sort(path)
 
-    first_search = sorted_data.first_search('sex', 'Male');
+    find_in_data = sorted_data.get_all_data()
 
-    second_search = sorted_data.search(first_search, 'state', 'MD')
+    second_search = sorted_data.search(find_in_data, 'state', 'MD')
 
     third_search = sorted_data.contains(second_search, 'full_address', 'ROSALIND')
 
