@@ -247,6 +247,8 @@ class Sort:
             json.dump(data, outfile)
 
     def delete_json_file(self, filepath):
+        self.print_execution(
+            '  🔪  Deleting File (' + filepath + '.json)...  ')
         os.remove('./filtered_data/' + filepath + '.json')
 
     # print list with bullet points / arrows
