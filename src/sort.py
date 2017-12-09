@@ -9,7 +9,6 @@
 import os
 import csv
 import json
-import xlrd
 import time
 import random
 import requests
@@ -192,8 +191,7 @@ class Sort:
             if(value and value.isdigit and value.find('.') != -1):
                 minimum_num = float(sorted_data[0][search_field])
             else:
-                minimum = int(sorted_data[0][search_field])
-            index_of_minimum = -1
+                minimum_num = int(sorted_data[0][search_field])
             for i in range(len(sorted_data)):
                 value = sorted_data[i][search_field]
                 if(value and value.isdigit and value.find('.') != -1):
