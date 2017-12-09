@@ -99,7 +99,6 @@ class Sort:
     def contains(self, sorted_data, search_criteria, search_value):
         self.print_execution('  ⌕ Checking If ' + str(search_value) +
                              ' Is Contained In `' + search_criteria + '` Field Of Csv Data...  ')
-        index = None
         result = []
         for i in range(len(sorted_data)):
             check = sorted_data[i][search_criteria]

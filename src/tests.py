@@ -11,7 +11,6 @@ from os import listdir
 from os.path import isfile, join
 
 def main():
-    all_direct_results = [];
     csv_path = '../resources/'
 
     all_files = [f for f in listdir(csv_path) if isfile(join(csv_path, f))]
