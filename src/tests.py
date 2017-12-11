@@ -12,6 +12,7 @@ from os.path import isfile, join
 
 def main():
     csv_path = '../resources/'
+    json_path = './filtered_data/'
 
     all_files = [f for f in listdir(csv_path) if isfile(join(csv_path, f))]
     for i in range(len(all_files)):
@@ -19,6 +20,12 @@ def main():
             if '.csv' not in all_files[i]:
                 del all_files[i]
 
+    json_files = [f for f in listdir(json_path) if isfile(join(json_path, f))]
+    for i in range(len(json_files)):
+        if i < len(json_files):
+            if '.json' not in all_files[i]:
+                del json_files[i]
+    print(json_files)
     path_to_csv_data = csv_path + choice(all_files)
     tests = Sort(path_to_csv_data)
 
@@ -41,8 +48,15 @@ def main():
     result = tests.contains(more_search, last_access_key , last_search_value)
 
     json_file_name = 'tests'
+    json_to_csv = 'new_csv.csv'
+
     tests.print_filtered_json_tofile(result, json_file_name)
     tests.delete_json_file('tests')
+
+    csv_path_main = csv_path + json_to_csv
+    tests.convert_json_to_csv(json_path + choice(json_files), csv_path_main)
+    tests.delete_csv_file(json_to_csv)
+
 
 
     tests.print_execution('  ✓ All Tests Passed ')

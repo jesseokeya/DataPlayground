@@ -246,10 +246,20 @@ class Sort:
         with open(directory + name_of_file + '.json', 'w') as outfile:
             json.dump(data, outfile)
 
+    # Delete Json file
     def delete_json_file(self, filepath):
         self.print_execution(
             '  🔪  Deleting File (' + filepath + '.json)...  ')
         os.remove('./filtered_data/' + filepath + '.json')
+
+    # Delete Csv File
+    def delete_csv_file(self, filepath):
+        self.print_execution(
+            '  🔪  Deleting File (' + filepath + ')...')
+        if '.csv' in filepath:
+            os.remove('../resources/' + filepath)
+        else:
+            os.remove('../resources/' + filepath + '.csv')
 
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
@@ -331,3 +341,14 @@ class Sort:
         cprint('             ' + total_time +
                ' second(s)             ', 'white', 'on_magenta')
         print('----------------------------------------')
+
+    # convert json file to csv
+    def convert_json_to_csv(self, json_file_location, csv_file_output_location):
+        infile = open(json_file_location, 'r')
+        outfile = open(csv_file_output_location, 'w')
+
+        writer = csv.writer(outfile)
+        self.print_execution('  🚝  Converting Json File (' + json_file_location + ') To Csv...  ')
+        for row in infile:
+            data = json.loads(row)
+            writer.writerow(data)
