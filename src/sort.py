@@ -266,9 +266,9 @@ class Sort:
 
     def send_data_as_post(self, visualization_type):
         if visualization_type == 'table':
-            url = 'http://localhost:3000/data-playground-table'
+            url = 'https://dataplayground-dev.herokuapp.com/data-playground-table'
         else:
-            url = 'http://localhost:3000/data-playground-map'
+            url = 'https://dataplayground-dev.herokuapp.com/data-playground-map'
         data = self.data
         if(len(data) > 0):
             self.print_execution(
