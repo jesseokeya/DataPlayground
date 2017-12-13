@@ -22,6 +22,7 @@ class Sort:
         self.path = path
         self.start_time = time.time()
         self.data = self.csv_data_to_json()
+        self.visualization_type = None
         self.headers = self.get_csv_data()[0]
         self.start()
 
@@ -263,13 +264,23 @@ class Sort:
         self.print_all_search_fields(message, self.headers)
         print('----------------------------------------')
 
-    def send_data_as_post(self, url):
+    def send_data_as_post(self, visualization_type):
+        if visualization_type == 'table':
+            url = 'http://localhost:3000/data-playground-table'
+        else:
+            url = 'http://localhost:3000/data-playground-map'
         data = self.data
         if(len(data) > 0):
             self.print_execution(
                 '  📩  Sending Data To The Web For Vizualization  ')
             headers = {'X-Requested-With': 'XMLHttpRequest'}
-            post_data = {'mapData': json.dumps(data)}
+            if 'table' not in url:
+                post_data = {'data': json.dumps(data)}
+            else:
+                post_data = {
+                'data': json.dumps(self.convert_data_to_table_readable()),
+                'headers': self.headers
+                }
             post = requests.post(url=url, headers=headers, data=post_data)
             self.print_execution_completed(
                 '  📬  Data Sent Successfully ')
@@ -284,6 +295,17 @@ class Sort:
         cprint('             ' + total_time +
                ' second(s)             ', 'white', 'on_magenta')
         print('----------------------------------------')
+
+    def convert_data_to_table_readable(self):
+        result = []
+        data = self.convert_json_to_array()
+        for i in range(len(data[0])):
+            temp_at_index = []
+            for j in range(len(data)):
+                if(j < len(data)):
+                    temp_at_index.append(data[j][i])
+            result.append(temp_at_index)
+        return result
 
     def convert_json_to_array(self):
         headers = self.headers

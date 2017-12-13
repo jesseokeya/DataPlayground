@@ -25,8 +25,7 @@ def main():
 
         sort_data.contains('neighborhood', 'Park')
 
-        url = 'https://dataplayground-dev.herokuapp.com/data-playground'
-        sort_data.send_data_as_post(url)
+        sort_data.send_data_as_post('map')
 
         sort_data.end()
 
