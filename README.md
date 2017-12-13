@@ -11,22 +11,20 @@ Sorting, Analyzing and Vizualizing Bank Data Collected
 ```python
 
 # specify the path of the csv data to be anlyzed
-  path = '../resources/Gun_Offenders.csv'
+    path = '../resources/Gun_Offenders.csv'
 
-  # sort data by search fields / criterias
-  # using indexes as access points
-  sorted_data = Sort(path)
+    # sort data by search fields / criterias
+    # using indexes as access points
+    sort_data = Sort(path)
 
-  find_in_data = sorted_data.get_all_data()
+    sort_data.search('state', 'MD')
 
-  second_search = sorted_data.search(find_in_data, 'state', 'MD')
+    sort_data.contains('neighborhood', 'Park')
 
-  third_search = sorted_data.contains(second_search, 'neighborhood', 'Park')
+    url = 'https://dataplayground-dev.herokuapp.com/data-playground'
+    sort_data.send_data_as_post(url)
 
-  url = 'https://dataplayground-dev.herokuapp.com/data-playground'
-  sorted_data.send_data_as_post(url, third_search)
-
-  sorted_data.end()
+    sort_data.end()
 
 ```
 
