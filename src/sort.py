@@ -21,57 +21,26 @@ class Sort:
     def __init__(self, path):
         self.path = path
         self.start_time = time.time()
-        self.data = self.get_csv_data()
-        self.headers = self.data[0]
+        self.data = self.csv_data_to_json()
+        self.visualization_type = None
+        self.headers = self.get_csv_data()[0]
         self.start()
 
-    def get_all_data(self):
+    def csv_data_to_json(self):
         f = open( self.path, 'r' )
         reader = csv.DictReader( f)
         result = json.dumps( [ row for row in reader ] )
         result = json.loads(result)
+        self.data = result
         return result
 
     # search for any data by its key, and search value which can
     # be a string or integer
     # returns an array of all the data that matches the search field and
     # its relating row / information
-    # used only once for the first time searching(!!important!!)
-    def first_search(self, search_criteria, search_value):
-        self.print_execution('  ⌕ Searching For ' + str(search_value) +
-                             ' in All `' + search_criteria + '` Field Of Csv Data...  ')
-        search_criteria_data = self.sort_data(self.data)
-        result = []
-
-        if(type(search_value).__name__ == 'list'):
-            for i in range(len(search_criteria_data[search_criteria])):
-                check = search_criteria_data[search_criteria][i]
-                search_value[0] = self.set_data_type(check, search_value[0])
-                search_value[1] = self.set_data_type(check, search_value[1])
-                if check.isdigit() and check.find('.') != -1:
-                    check = float(search_criteria_data[search_criteria][i])
-                if(check > search_value[0] and check <= search_value[1]):
-                    result.append(self.search_by_index(
-                        i + 1, search_criteria_data))
-            self.print_execution_completed('  ✓ Search Completed....  ')
-            return result
-
-        else:
-            for i in range(len(search_criteria_data[search_criteria])):
-                check = search_criteria_data[search_criteria][i]
-                search_value = self.set_data_type(check, search_value)
-                if(check == search_value):
-                    result.append(self.search_by_index(
-                        i + 1, search_criteria_data))
-            self.print_execution_completed('  ✓ Search Completed....  ')
-            return result
-
-    # search for any data by its key, and search value which can
-    # be a string or integer
-    # returns an array of all the data that matches the search field and
-    # its relating row / information
     # used only afer the first time searching(!!important!!)
-    def search(self, sorted_data, search_criteria, search_value):
+    def search(self, search_criteria, search_value):
+        sorted_data = self.data
         self.print_execution('  ⌕ Searching For ' + str(search_value) +
                              ' in All `' + search_criteria + '` Field Of Csv Data...  ')
         result = []
@@ -86,6 +55,7 @@ class Sort:
                 if(check > search_value[0] and check <= search_value[1]):
                     result.append(sorted_data[i])
                 self.print_execution_completed('  ✓ Search Completed....  ')
+                self.data = result
                 return result
         else:
             for i in range(len(sorted_data)):
@@ -94,9 +64,11 @@ class Sort:
                 if(check == search_value):
                     result.append(sorted_data[i])
             self.print_execution_completed('  ✓ Search Completed....  ')
+            self.data = result
             return result
 
-    def contains(self, sorted_data, search_criteria, search_value):
+    def contains(self, search_criteria, search_value):
+        sorted_data = self.data
         self.print_execution('  ⌕ Checking If ' + str(search_value) +
                              ' Is Contained In `' + search_criteria + '` Field Of Csv Data...  ')
         result = []
@@ -106,50 +78,18 @@ class Sort:
             if(check.lower().find(search_value.lower()) != -1):
                 result.append(sorted_data[i])
         self.print_execution_completed('  ✓ Search Completed....  ')
-        return result
-
-    # function find each person by index
-    # returns person in that index and all data relating to that person
-    def search_by_index(self, index, data):
-        searchCriterias = self.return_all_criterias()
-        index = index - 1
-        result = {}
-
-        for i in range(len(searchCriterias)):
-            result[searchCriterias[i]] = data[searchCriterias[i]][index]
-
+        self.data = result
         return result
 
     # list of all search criterias that could be used
     def return_all_criterias(self):
         return self.headers
 
-    # function to sort all data into a dictionary using search criterias as key
-    # returns a dictionary of all search criterias with all specific data
-    # in thier in thier right positions
-    def sort_data(self, data_):
-        self.print_execution('  📚  Sorting Data...  ')
-        data = []
-        trackDataKeys = {}
-
-        for row in data_:
-            data.append(row)
-        constDataKeys = data[0]
-
-        for i in range(len(data[0])):
-            trackDataKeys[data[0][i]] = []
-        data.pop(0)
-
-        for i in range(len(data)):
-            for j in range(len(data[i])):
-                trackDataKeys[constDataKeys[j]].append(data[i][j])
-
-        return trackDataKeys
-
     # returns maximum number in a sorted csv data set
     # the search_field should always be an int (important!!)
     # parameter 2 is already soreted data (important!!)
-    def get_maximum_value(self, search_field, sorted_data):
+    def get_maximum_value(self, search_field):
+        sorted_data = self.data
         result = []
         if(sorted_data and len(sorted_data) > 0):
             maximum_num = 0
@@ -176,13 +116,14 @@ class Sort:
                         result.append(sorted_data[i])
                 elif(int(value) == maximum_num):
                     result.append(sorted_data[i])
-
+            self.data = result
             return result
 
     # returns minimum number in a sorted csv data set
     # the search_field should always be an int (important!!)
     # parameter 2 is already soreted data (important!!)
-    def get_minimum_value(self, search_field, sorted_data):
+    def get_minimum_value(self, search_field):
+        sorted_data = self.data
         result = []
         if(sorted_data and len(sorted_data) > 0):
             minimum_num = float(sorted_data[0][search_field])
@@ -209,7 +150,7 @@ class Sort:
                         result.append(sorted_data[i])
                 elif(int(value) == minimum_num):
                     result.append(sorted_data[i])
-
+            self.data = result
             return result
 
     # compares two data types and converts the data type of the
@@ -237,7 +178,8 @@ class Sort:
         return len(self.data)
 
     # print formated json data of csv infomation to a given (filename).json
-    def print_filtered_json_tofile(self, data, name_of_file):
+    def print_filtered_json_tofile(self, name_of_file):
+        data = self.data
         self.print_execution(
             '  🖨  Printing Sorted Data To File (' + str(name_of_file) + '.json)...  ')
         directory = './filtered_data/'
@@ -263,19 +205,19 @@ class Sort:
 
     # print list with bullet points / arrows
     def print_all_search_fields(self, message, all_search_fields):
-        sorted_data = self.sort_data(self.data)
+        sorted_data = self.data
         key = None
         print(colored(message, 'grey', 'on_white', attrs=['bold']))
         print('----------------------------------------')
+        length_of_field = len(sorted_data)
+        pick_random_field = random.randint(0, length_of_field)
         for i in range(len(all_search_fields)):
             arrows = colored('⎸►| ', 'magenta')
             key = all_search_fields[i]
-            length_of_field = len(sorted_data[all_search_fields[i]])
-            pick_random_field = random.randint(0, length_of_field)
             print(
-                arrows + colored(all_search_fields[i] + ' ➾ ' + sorted_data[all_search_fields[i]][pick_random_field], 'cyan', attrs=['bold']))
+                arrows + colored(all_search_fields[i] + ' ➾ ' + sorted_data[pick_random_field][all_search_fields[i]], 'cyan', attrs=['bold']))
         print('----------------------------------------')
-        data_len = str(len(sorted_data[key]))
+        data_len = str(len(sorted_data))
         cprint('         Length Of Csv Data is ' +
                data_len + '     ', 'white', 'on_magenta')
 
@@ -314,6 +256,7 @@ class Sort:
         print('----------------------------------------')
         cprint('        ⛹  Data Playground ⛹            ', 'white', 'on_magenta')
         print('----------------------------------------')
+        self.print_execution('  📚  Sorting Data...  ')
         self.print_execution_completed('  ✓ Csv File Imported Successfully  ')
         # prints out all search fields / criterias that
         # can be used to filter the csv data imported
@@ -321,16 +264,27 @@ class Sort:
         self.print_all_search_fields(message, self.headers)
         print('----------------------------------------')
 
-    def send_data_as_post(self, url, data):
+    def send_data_as_post(self, visualization_type):
+        if visualization_type == 'table':
+            url = 'https://dataplayground-dev.herokuapp.com/data-playground-table'
+        else:
+            url = 'https://dataplayground-dev.herokuapp.com/data-playground-map'
+        data = self.data
         if(len(data) > 0):
             self.print_execution(
                 '  📩  Sending Data To The Web For Vizualization  ')
             headers = {'X-Requested-With': 'XMLHttpRequest'}
-            post_data = {'mapData': json.dumps(data)}
+            if 'table' not in url:
+                post_data = {'data': json.dumps(data)}
+            else:
+                post_data = {
+                'data': json.dumps(self.convert_data_to_table_readable()),
+                'headers': self.headers
+                }
             post = requests.post(url=url, headers=headers, data=post_data)
-            return post
             self.print_execution_completed(
                 '  📬  Data Sent Successfully ')
+            return post
 
     # pretty print end of excecution time
     def end(self):
@@ -342,13 +296,25 @@ class Sort:
                ' second(s)             ', 'white', 'on_magenta')
         print('----------------------------------------')
 
-    # convert json file to csv
-    def convert_json_to_csv(self, json_file_location, csv_file_output_location):
-        infile = open(json_file_location, 'r')
-        outfile = open(csv_file_output_location, 'w')
+    def convert_data_to_table_readable(self):
+        result = []
+        data = self.convert_json_to_array()
+        for i in range(len(data[0])):
+            temp_at_index = []
+            for j in range(len(data)):
+                if(j < len(data)):
+                    temp_at_index.append(data[j][i])
+            result.append(temp_at_index)
+        return result
 
-        writer = csv.writer(outfile)
-        self.print_execution('  🚝  Converting Json File (' + json_file_location + ') To Csv...  ')
-        for row in infile:
-            data = json.loads(row)
-            writer.writerow(data)
+    def convert_json_to_array(self):
+        headers = self.headers
+        data = self.data
+        result = []
+        for i in range(len(self.headers)):
+            current_header = []
+            for j in range(len(self.data)):
+                header_at_index = self.data[j][self.headers[i]]
+                current_header.append(header_at_index)
+            result.append(current_header)
+        return result
